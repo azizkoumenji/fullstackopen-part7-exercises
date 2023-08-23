@@ -5,9 +5,10 @@ import {
   Route,
   Link,
   useMatch,
+  useNavigate,
 } from "react-router-dom";
 
-const Menu = ({ anecdotes, addNew }) => {
+const Menu = ({ anecdotes, addNew, setNotification, notification }) => {
   const padding = {
     paddingRight: 5,
   };
@@ -28,6 +29,7 @@ const Menu = ({ anecdotes, addNew }) => {
       <Link to="/about" style={padding}>
         About
       </Link>
+      <Notification notification={notification} />
       <Routes>
         <Route
           path="/anecdotes"
@@ -35,7 +37,12 @@ const Menu = ({ anecdotes, addNew }) => {
         />
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path="/about" element={<About />} />
-        <Route path="/create" element={<CreateNew addNew={addNew} />} />
+        <Route
+          path="/create"
+          element={
+            <CreateNew addNew={addNew} setNotification={setNotification} />
+          }
+        />
         <Route
           path="/anecdotes/:id"
           element={<Anecdote anecdote={anecdote} />}
@@ -50,7 +57,7 @@ const AnecdoteList = ({ anecdotes }) => (
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes.map((anecdote) => (
-        <li>
+        <li key={anecdote.id}>
           <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
         </li>
       ))}
@@ -107,6 +114,7 @@ const CreateNew = (props) => {
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [info, setInfo] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -116,6 +124,14 @@ const CreateNew = (props) => {
       info,
       votes: 0,
     });
+    setContent("");
+    setAuthor("");
+    setInfo("");
+    navigate("/anecdotes");
+    props.setNotification(`A new anecdote "${content}" created!`);
+    setTimeout(() => {
+      props.setNotification("");
+    }, 5000);
   };
 
   return (
@@ -151,6 +167,8 @@ const CreateNew = (props) => {
     </div>
   );
 };
+
+const Notification = ({ notification }) => <div>{notification}</div>;
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -194,7 +212,12 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Router>
-        <Menu anecdotes={anecdotes} addNew={addNew} />
+        <Menu
+          anecdotes={anecdotes}
+          addNew={addNew}
+          setNotification={setNotification}
+          notification={notification}
+        />
       </Router>
       <Footer />
     </div>
