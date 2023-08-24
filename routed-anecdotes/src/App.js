@@ -138,21 +138,27 @@ const CreateNew = (props) => {
     info.reset();
   };
 
+  const list = [content, author, info];
+  const result = list.map((object) => {
+    const { reset, ...rest } = object;
+    return rest;
+  });
+
   return (
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name="content" {...content} />
+          <input name="content" {...result[0]} />
         </div>
         <div>
           author
-          <input name="author" {...author} />
+          <input name="author" {...result[1]} />
         </div>
         <div>
           url for more info
-          <input name="info" {...info} />
+          <input name="info" {...result[2]} />
         </div>
         <button>create</button>
       </form>
