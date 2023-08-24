@@ -126,10 +126,16 @@ const CreateNew = (props) => {
       votes: 0,
     });
     navigate("/anecdotes");
-    props.setNotification(`A new anecdote "${content}" created!`);
+    props.setNotification(`A new anecdote "${content.value}" created!`);
     setTimeout(() => {
       props.setNotification("");
     }, 5000);
+  };
+
+  const handleClick = () => {
+    content.reset();
+    author.reset();
+    info.reset();
   };
 
   return (
@@ -150,6 +156,7 @@ const CreateNew = (props) => {
         </div>
         <button>create</button>
       </form>
+      <button onClick={handleClick}>reset</button>
     </div>
   );
 };
