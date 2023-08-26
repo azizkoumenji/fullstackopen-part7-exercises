@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, setBlogs, user, handleLike }) => {
+const Blog = ({ blog, user, handleLike }) => {
   const [showAll, setShow] = useState(false);
 
   const handleClick = () => {
@@ -23,7 +23,6 @@ const Blog = ({ blog, setBlogs, user, handleLike }) => {
   const handelDelete = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       await blogService.deleteBlog(blog);
-      setBlogs(await blogService.getAll());
     }
   };
 
@@ -58,7 +57,6 @@ const Blog = ({ blog, setBlogs, user, handleLike }) => {
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  setBlogs: PropTypes.func.isRequired,
   handleLike: PropTypes.func.isRequired,
 };
 
