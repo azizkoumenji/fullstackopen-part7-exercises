@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import blogService from "../services/blogs";
+import { deleteBlog } from "../reducers/blogReducer";
+import { useDispatch } from "react-redux";
 
 const Blog = ({ blog, user, handleLike }) => {
   const [showAll, setShow] = useState(false);
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     const change = !showAll;
@@ -22,7 +24,7 @@ const Blog = ({ blog, user, handleLike }) => {
 
   const handelDelete = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      await blogService.deleteBlog(blog);
+      dispatch(deleteBlog(blog));
     }
   };
 

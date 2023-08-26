@@ -8,7 +8,7 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import { setNotification } from "./reducers/notificationReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { createBlog, initializeBlogs } from "./reducers/blogReducer";
+import { addLike, createBlog, initializeBlogs } from "./reducers/blogReducer";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -16,7 +16,6 @@ const App = () => {
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const blogs = useSelector((state) => state.blogs);
-  console.log(blogs);
 
   useEffect(() => {
     dispatch(initializeBlogs());
@@ -71,8 +70,12 @@ const App = () => {
 
   const handleLike = async (blog) => {
     const newBlog = { ...blog, likes: blog.likes + 1 };
-    await blogService.modify(newBlog);
+    dispatch(addLike(newBlog));
   };
+
+  function compareNumbers(a, b) {
+    return b.likes - a.likes;
+  }
 
   if (user === null) {
     return (
@@ -88,6 +91,7 @@ const App = () => {
       </>
     );
   } else {
+    const blogsSorted = [...blogs];
     return (
       <div>
         <h2>Blogs</h2>
@@ -97,7 +101,7 @@ const App = () => {
         <Togglable buttonLabel="New Blog" ref={blogFormRef}>
           <Add addBlog={addBlog} />
         </Togglable>
-        {blogs.map((blog) => (
+        {blogsSorted.sort(compareNumbers).map((blog) => (
           <Blog key={blog.id} blog={blog} user={user} handleLike={handleLike} />
         ))}
       </div>
