@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const Blog = ({ blog, user, handleLike }) => {
+const Blog = ({ blog }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -18,10 +18,9 @@ const Blog = ({ blog, user, handleLike }) => {
     </div>
   );
 };
+
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
-  handleLike: PropTypes.func.isRequired,
 };
 
 export default Blog;
