@@ -18,6 +18,7 @@ import {
   useMatch,
 } from "react-router-dom";
 import User from "./components/User";
+import BlogView from "./components/BlogView";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -120,6 +121,10 @@ const App = () => {
           />
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<User />} />
+          <Route
+            path="/blogs/:id"
+            element={<BlogView handleLike={handleLike} />}
+          />
         </Routes>
       </Router>
     );
