@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
-import blogService from "./services/blogs";
 import Login from "./components/Login";
 import Add from "./components/Add";
 import Notification from "./components/Notification";
@@ -9,6 +8,8 @@ import { setNotification } from "./reducers/notificationReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { addLike, createBlog, initializeBlogs } from "./reducers/blogReducer";
 import { logUser, outUser, userAreadyLogged } from "./reducers/userReducer";
+import Users from "./components/Users";
+import { getUsers } from "./reducers/allUsers";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -19,6 +20,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs());
+    dispatch(getUsers());
   }, [dispatch]);
 
   useEffect(() => {
@@ -95,6 +97,7 @@ const App = () => {
         {blogsSorted.sort(compareNumbers).map((blog) => (
           <Blog key={blog.id} blog={blog} user={user} handleLike={handleLike} />
         ))}
+        <Users />
       </div>
     );
   }

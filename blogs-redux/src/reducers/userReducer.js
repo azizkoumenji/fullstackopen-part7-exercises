@@ -3,7 +3,7 @@ import loginService from "../services/login";
 import blogService from "../services/blogs";
 import { setNotification } from "./notificationReducer";
 
-const blogSlice = createSlice({
+const userSlice = createSlice({
   name: "user",
   initialState: null,
   reducers: {
@@ -16,7 +16,7 @@ const blogSlice = createSlice({
   },
 });
 
-export const { setUser, delUser } = blogSlice.actions;
+export const { setUser, delUser } = userSlice.actions;
 
 export const logUser = (user) => {
   return async (dispatch) => {
@@ -48,4 +48,4 @@ export const outUser = () => {
   };
 };
 
-export default blogSlice.reducer;
+export default userSlice.reducer;
