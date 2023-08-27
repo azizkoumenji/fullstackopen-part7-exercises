@@ -10,6 +10,7 @@ import { addLike, createBlog, initializeBlogs } from "./reducers/blogReducer";
 import { logUser, outUser, userAreadyLogged } from "./reducers/userReducer";
 import Users from "./components/Users";
 import { getUsers } from "./reducers/allUsers";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -86,19 +87,33 @@ const App = () => {
   } else {
     const blogsSorted = [...blogs];
     return (
-      <div>
+      <Router>
         <h2>Blogs</h2>
         <Notification />
         <p>{user.name} is logged in.</p>
         <button onClick={handleLogout}>Log Out</button>
-        <Togglable buttonLabel="New Blog" ref={blogFormRef}>
-          <Add addBlog={addBlog} />
-        </Togglable>
-        {blogsSorted.sort(compareNumbers).map((blog) => (
-          <Blog key={blog.id} blog={blog} user={user} handleLike={handleLike} />
-        ))}
-        <Users />
-      </div>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div>
+                <Togglable buttonLabel="New Blog" ref={blogFormRef}>
+                  <Add addBlog={addBlog} />
+                </Togglable>
+                {blogsSorted.sort(compareNumbers).map((blog) => (
+                  <Blog
+                    key={blog.id}
+                    blog={blog}
+                    user={user}
+                    handleLike={handleLike}
+                  />
+                ))}
+              </div>
+            }
+          />
+          <Route path="/users" element={<Users />} />
+        </Routes>
+      </Router>
     );
   }
 };
