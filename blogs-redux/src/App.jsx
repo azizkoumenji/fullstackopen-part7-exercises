@@ -10,7 +10,14 @@ import { addLike, createBlog, initializeBlogs } from "./reducers/blogReducer";
 import { logUser, outUser, userAreadyLogged } from "./reducers/userReducer";
 import Users from "./components/Users";
 import { getUsers } from "./reducers/allUsers";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useMatch,
+} from "react-router-dom";
+import User from "./components/User";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -112,6 +119,7 @@ const App = () => {
             }
           />
           <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<User />} />
         </Routes>
       </Router>
     );
