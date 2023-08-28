@@ -1,9 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useMatch, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { deleteBlog } from "../reducers/blogReducer";
+import { deleteBlog, initializeBlogs } from "../reducers/blogReducer";
+import blogService from "../services/blogs";
+import { useState } from "react";
+import { createComment } from "../reducers/commentReducer";
 
 const BlogView = ({ handleLike }) => {
+  const comment = useSelector((state) => state.comment);
   const blogs = useSelector((state) => state.blogs);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -17,6 +21,19 @@ const BlogView = ({ handleLike }) => {
       dispatch(deleteBlog(blog));
       navigate("/");
     }
+  };
+
+  const handleComment = (event) => {
+    const newBlog = {
+      ...blog,
+      comments: blog.comments.concat(comment),
+    };
+    blogService.addComment(newBlog);
+    dispatch(createComment(""));
+  };
+
+  const handleCommentChange = (event) => {
+    dispatch(createComment(event.target.value));
   };
 
   if (!blog) {
@@ -37,6 +54,13 @@ const BlogView = ({ handleLike }) => {
           <button onClick={() => handleLike(blog)}>Like</button>
         </p>
         <p>Comments:</p>
+        <form onSubmit={handleComment}>
+          <label>
+            Add a comment:
+            <input value={comment} onChange={handleCommentChange} />
+          </label>
+          <button type="submit">Add</button>
+        </form>
         <ul>
           {blog.comments.map((comment, i) => (
             <li key={i}>{comment}</li>
