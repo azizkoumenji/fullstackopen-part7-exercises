@@ -12,8 +12,6 @@ const BlogView = ({ handleLike }) => {
 
   const blog = match ? blogs.find((bl) => bl.id === match.params.id) : null;
 
-  const showDeleteButton = user.id === blog.user.id;
-
   const handelDelete = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       dispatch(deleteBlog(blog));
@@ -21,22 +19,34 @@ const BlogView = ({ handleLike }) => {
     }
   };
 
-  return (
-    <div>
-      <h2>
-        {blog.title} by {blog.author}
-      </h2>
-      <a href={blog.url} target="_blank" rel="noreferrer">
-        {blog.url}
-      </a>
-      <p>
-        Likes: {blog.likes}{" "}
-        <button onClick={() => handleLike(blog)}>Like</button>
-      </p>
-      <p>Added by {blog.user.name}</p>
-      {showDeleteButton && <button onClick={handelDelete}>Delete</button>}
-    </div>
-  );
+  if (!blog) {
+    return null;
+  } else {
+    const showDeleteButton = user.id === blog.user.id;
+
+    return (
+      <div>
+        <h2>
+          {blog.title} by {blog.author}
+        </h2>
+        <a href={blog.url} target="_blank" rel="noreferrer">
+          {blog.url}
+        </a>
+        <p>
+          Likes: {blog.likes}{" "}
+          <button onClick={() => handleLike(blog)}>Like</button>
+        </p>
+        <p>Comments:</p>
+        <ul>
+          {blog.comments.map((comment, i) => (
+            <li key={i}>{comment}</li>
+          ))}
+        </ul>
+        <p>Added by {blog.user.name}</p>
+        {showDeleteButton && <button onClick={handelDelete}>Delete</button>}
+      </div>
+    );
+  }
 };
 
 BlogView.propTypes = {
