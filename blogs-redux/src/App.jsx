@@ -97,15 +97,19 @@ const App = () => {
           <Route
             path="/"
             element={
-              <div>
-                <h2>Blogs</h2>
-                <Togglable buttonLabel="New Blog" ref={blogFormRef}>
-                  <Add addBlog={addBlog} />
-                </Togglable>
-                {blogsSorted.sort(compareNumbers).map((blog) => (
-                  <Blog key={blog.id} blog={blog} />
-                ))}
-              </div>
+              <>
+                <h2 className="text-5xl font-bold mb-50 mb-7 mx-5 text-center mt-5">
+                  Posts
+                </h2>
+                <div className="flex flex-col gap-3 mx-5">
+                  {blogsSorted.sort(compareNumbers).map((blog) => (
+                    <Blog key={blog.id} blog={blog} />
+                  ))}
+                  <Togglable buttonLabel="New Blog" ref={blogFormRef}>
+                    <Add addBlog={addBlog} />
+                  </Togglable>
+                </div>
+              </>
             }
           />
           <Route path="/users" element={<Users />} />

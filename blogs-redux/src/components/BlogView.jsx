@@ -5,6 +5,7 @@ import { deleteBlog, initializeBlogs } from "../reducers/blogReducer";
 import blogService from "../services/blogs";
 import { useState } from "react";
 import { createComment } from "../reducers/commentReducer";
+import { Input, Button, Card, CardBody } from "@nextui-org/react";
 
 const BlogView = ({ handleLike }) => {
   const comment = useSelector((state) => state.comment);
@@ -43,31 +44,47 @@ const BlogView = ({ handleLike }) => {
 
     return (
       <div>
-        <h2>
+        <h2 className="text-4xl font-bold">
           {blog.title} by {blog.author}
         </h2>
-        <a href={blog.url} target="_blank" rel="noreferrer">
+        <a
+          className="text-blue-500	hover:text-blue-600	"
+          href={blog.url}
+          target="_blank"
+          rel="noreferrer"
+        >
           {blog.url}
         </a>
         <p>
-          Likes: {blog.likes}{" "}
-          <button onClick={() => handleLike(blog)}>Like</button>
+          <Button color="primary" onClick={() => handleLike(blog)}>
+            Like {blog.likes}
+          </Button>
         </p>
-        <p>Comments:</p>
+        {showDeleteButton && (
+          <Button color="danger" onClick={handelDelete}>
+            Delete
+          </Button>
+        )}
+        <p>Added by {blog.user.name}</p>
+        <p className="font-semibold text-lg">Comments</p>
+        <ul>
+          {blog.comments.map((comment, i) => (
+            <li key={i}>
+              <Card>
+                <CardBody>{comment}</CardBody>
+              </Card>
+            </li>
+          ))}
+        </ul>
         <form onSubmit={handleComment}>
           <label>
             Add a comment:
-            <input value={comment} onChange={handleCommentChange} />
+            <Input value={comment} onChange={handleCommentChange} />
           </label>
-          <button type="submit">Add</button>
+          <Button color="success" type="submit">
+            Add
+          </Button>
         </form>
-        <ul>
-          {blog.comments.map((comment, i) => (
-            <li key={i}>{comment}</li>
-          ))}
-        </ul>
-        <p>Added by {blog.user.name}</p>
-        {showDeleteButton && <button onClick={handelDelete}>Delete</button>}
       </div>
     );
   }

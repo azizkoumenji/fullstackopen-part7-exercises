@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
+import { CardHeader, Input } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 
 const Add = ({ addBlog }) => {
   const [newAuthor, setNewAuthor] = useState("");
@@ -33,21 +35,24 @@ const Add = ({ addBlog }) => {
 
   return (
     <>
-      <h2>Create New</h2>
-      <form onSubmit={newBlog}>
-        <div>
-          Title:
-          <input value={newTitle} id="title" onChange={handleTitleChange} />
-        </div>
-        <div>
-          Author:
-          <input value={newAuthor} id="author" onChange={handleAuthorChange} />
-        </div>
-        <div>
-          URL:
-          <input value={newURL} id="url" onChange={handleURLChange} />
-        </div>
-        <button type="submit">Save</button>
+      <p className="text-xl font-semibold mb-5">Create New</p>
+      <form onSubmit={newBlog} className="flex flex-col gap-2 mb-3">
+        <Input
+          value={newTitle}
+          label="Title"
+          id="title"
+          onChange={handleTitleChange}
+        />
+        <Input
+          value={newAuthor}
+          label="Author"
+          id="author"
+          onChange={handleAuthorChange}
+        />
+        <Input value={newURL} label="URL" id="url" onChange={handleURLChange} />
+        <Button color="primary" type="submit">
+          Save
+        </Button>
       </form>
     </>
   );

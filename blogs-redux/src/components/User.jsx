@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useMatch } from "react-router-dom";
+import { Avatar, Card, CardBody, CardHeader } from "@nextui-org/react";
 
 const User = () => {
   const users = useSelector((state) => state.users);
@@ -12,13 +13,22 @@ const User = () => {
 
   return (
     <div>
-      <h2>{user.name}</h2>
-      <h3>Added Blogs</h3>
-      <ul>
-        {user.blogs.map((blog, i) => (
-          <li key={i}>{blog.title}</li>
-        ))}
-      </ul>
+      <Avatar showFallback />
+      <h2 className="font-bold text-4xl">{user.name}</h2>
+      <Card>
+        <CardHeader>
+          <h3 className="font-semibold text-xl">Your Blogs</h3>
+        </CardHeader>
+        <CardBody>
+          <ul>
+            {user.blogs.map((blog, i) => (
+              <li key={i}>
+                <Card className="bg-content2">{blog.title}</Card>
+              </li>
+            ))}
+          </ul>
+        </CardBody>
+      </Card>
     </div>
   );
 };
