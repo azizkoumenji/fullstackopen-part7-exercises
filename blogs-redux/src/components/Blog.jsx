@@ -1,4 +1,4 @@
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
+import { Card, CardFooter, CardHeader } from "@nextui-org/react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
